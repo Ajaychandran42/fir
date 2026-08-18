@@ -2,92 +2,187 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portfolio</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>TNEA GPT | Admissions Assistant</title>
+    <link rel="icon" type="image/jpeg" href="logo_2.jpeg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600;700&family=Outfit:wght@500;600;700;800&family=Space+Grotesk:wght@700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <header>
-        <nav class="navbar">
-            <div class="container">
-                <a href="#" class="logo">MyPortfolio</a>
-                <ul class="nav-links">
-                    <li><a href="#home">Home</a></li>
-                    <li><a href="#skills">Skills</a></li>
-                    <li><a href="#projects">Projects</a></li>
-                    <li><a href="#about">About Me</a></li>
-                    <li><a href="#contact">Contact</a></li>
-                </ul>
-            </div>
-        </nav>
-    </header>
-
-    <section id="home" class="section">
-        <div class="container">
-            <h1>Welcome to My Portfolio</h1>
-            <p>Hi, I'm a passionate web developer!</p>
-        </div>
-    </section>
-
-    <section id="skills" class="section">
-        <div class="container">
-            <h2>My Skills</h2>
-            <div class="skills">
-                <div class="skill">HTML</div>
-                <div class="skill">CSS</div>
-                <div class="skill">JavaScript</div>
-                <div class="skill">React</div>
-                <div class="skill">Node.js</div>
-            </div>
-        </div>
-    </section>
-
-    <section id="projects" class="section">
-        <div class="container">
-            <h2>Projects</h2>
-            <div class="projects">
-                <div class="project">
-                    <h3>Project 1</h3>
-                    <p>Description of the project and key features.</p>
+    <div class="app-root theme-dark" id="appRoot">
+        <div class="app-container">
+            <div class="mobile-overlay" id="mobileOverlay"></div>
+            
+            <aside class="sidebar" id="sidebar">
+                <div class="sidebar-top">
+                    <div class="sidebar-brand">
+                        <img src="logo_2.jpeg" alt="TNEA GPT Logo" class="sidebar-custom-logo">
+                        <div class="brand-info hide-on-collapse">
+                            <h2>TNEA GPT</h2>
+                            <span class="badge-2026">2026 Edition</span>
+                        </div>
+                        <button class="icon-btn close-sidebar-btn hide-on-collapse" id="closeSidebarBtn" title="Close Sidebar"><i data-lucide="chevron-left"></i></button>
+                    </div>
+                    <button class="action-btn new-chat-btn" id="newChatBtn" title="New Chat"><i data-lucide="plus-circle"></i><span class="hide-on-collapse">New Chat</span></button>
+                    <button class="nav-item calc-nav-btn" id="navCalcPageBtn" title="Cutoff Calculator">
+                        <div class="nav-icon-wrapper calc-accent"><i data-lucide="calculator"></i></div>
+                        <div class="nav-item-text hide-on-collapse"><span class="title">Cutoff Calculator</span><span class="sub">Calculate PCM to 200</span></div>
+                    </button>
+                    <button class="nav-item" id="navTrendBtn" title="5-Year Trend">
+                        <div class="nav-icon-wrapper trend-accent"><i data-lucide="bar-chart-2"></i></div>
+                        <div class="nav-item-text hide-on-collapse"><span class="title">College Comparison</span><span class="sub">5-Year Code Analysis</span></div>
+                    </button>
+                    <div class="sidebar-divider hide-on-collapse"></div>
+                    <span class="sidebar-section-label hide-on-collapse">Navigation</span>
+                    <button class="nav-item active" id="navChatBtn" title="Counseling Chat">
+                        <div class="nav-icon-wrapper"><i data-lucide="message-square"></i></div>
+                        <span class="hide-on-collapse">Counseling Chat</span>
+                    </button>
                 </div>
-                <div class="project">
-                    <h3>Project 2</h3>
-                    <p>Description of the project and key features.</p>
+                <div class="sidebar-bottom">
+                    <button class="nav-item settings-nav-btn" id="navSettingsBtn" title="Settings">
+                        <div class="nav-icon-wrapper"><i data-lucide="settings"></i></div>
+                        <span class="hide-on-collapse">Settings</span>
+                    </button>
                 </div>
-                <div class="project">
-                    <h3>Project 3</h3>
-                    <p>Description of the project and key features.</p>
-                </div>
+            </aside>
+
+            <div class="main-wrapper">
+                <main class="page-view active" id="chatView">
+                    <header class="app-header">
+                        <div class="header-left">
+                            <button class="icon-btn menu-toggle-btn" id="menuToggleBtn" title="Toggle Menu"><i data-lucide="menu"></i></button>
+                            <div class="quick-actions mobile-only">
+                                <button class="icon-btn outline-btn" id="headerCalcBtn" title="Cutoff Calculator"><i data-lucide="calculator"></i></button>
+                                <button class="icon-btn outline-btn" id="headerSettingsBtn" title="Settings"><i data-lucide="settings"></i></button>
+                            </div>
+                            <div class="header-title desktop-only">
+                                <h1>Admissions Assistant</h1>
+                                <span class="status-indicator"><span class="pulse-dot"></span> Live Model Ready</span>
+                            </div>
+                        </div>
+                        <div class="header-right" style="position: relative;">
+                            <button class="icon-btn" id="headerMenuBtn" title="More Options"><i data-lucide="more-vertical"></i></button>
+                            <div class="header-dropdown" id="headerDropdown">
+                                <button class="dropdown-item" id="shareBtn"><i data-lucide="share-2"></i> Share Chat</button>
+                                <button class="dropdown-item" id="downloadPdfBtn"><i data-lucide="download"></i> Download as PDF</button>
+                            </div>
+                        </div>
+                    </header>
+                    <div class="messages-wrapper">
+                        <div class="messages" id="messagesContainer">
+                            <div class="typing-row" id="typingIndicator" style="display: none;">
+                                <div class="avatar bot"><img src="logo_2.jpeg" alt="Bot"></div>
+                                <div class="typing-dots"><span></span><span></span><span></span></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="composer-container">
+                        <div class="composer">
+                            <div class="input-card glass-panel">
+                                <textarea id="chatInput" rows="1" placeholder="Type marks, rank, or preferred branch…"></textarea>
+                                <div class="input-actions">
+                                    <button class="tool-btn mic-btn" id="micBtn" title="Voice Input"><i data-lucide="mic" id="micIcon"></i></button>
+                                    <button class="send-btn" id="sendBtn" onclick="handleSend()" title="Send Message"><i data-lucide="arrow-up"></i></button>
+                                </div>
+                            </div>
+                            <p class="disclaimer"><i data-lucide="shield-check" class="disclaimer-icon"></i> Official TNEA 2026 Guidelines Applied.</p>
+                        </div>
+                    </div>
+                </main>
+
+                <section class="page-view" id="calculatorView">
+                    <div class="calc-page-container">
+                        <div class="calc-page-header">
+                            <div class="calc-badge">TNEA Standard Formula</div>
+                            <h2>Cutoff Calculator</h2>
+                            <p>Calculate your composite score out of <strong>200</strong>.</p>
+                        </div>
+                        <div class="calc-hero-card glass-panel">
+                            <div class="calc-score-wrap">
+                                <span class="calc-score-label">Your Aggregate Cutoff</span>
+                                <div class="calc-score-number" id="fullCalcDisplay">000.00</div>
+                                <div class="calc-score-progress"><div class="progress-bar-fill" id="calcProgressBar"></div></div>
+                            </div>
+                        </div>
+                        <div class="subject-grid">
+                            <div class="subject-card math-card">
+                                <div class="subject-header"><div class="subject-icon math-icon"><i data-lucide="superscript"></i></div><div><h4>Mathematics</h4><span class="weightage">Max 100</span></div></div>
+                                <div class="subject-input-group"><input type="number" id="calcMath" min="0" max="100" placeholder="0" value=""></div>
+                                <div class="contribution">Contrib: <strong id="mathContrib">0.00</strong></div>
+                            </div>
+                            <div class="subject-card phy-card">
+                                <div class="subject-header"><div class="subject-icon phy-icon"><i data-lucide="atom"></i></div><div><h4>Physics</h4><span class="weightage">Max 100</span></div></div>
+                                <div class="subject-input-group"><input type="number" id="calcPhy" min="0" max="100" placeholder="0" value=""></div>
+                                <div class="contribution">Contrib: <strong id="phyContrib">0.00</strong></div>
+                            </div>
+                            <div class="subject-card chem-card">
+                                <div class="subject-header"><div class="subject-icon chem-icon"><i data-lucide="flask-conical"></i></div><div><h4>Chemistry</h4><span class="weightage">Max 100</span></div></div>
+                                <div class="subject-input-group"><input type="number" id="calcChem" min="0" max="100" placeholder="0" value=""></div>
+                                <div class="contribution">Contrib: <strong id="chemContrib">0.00</strong></div>
+                            </div>
+                        </div>
+                        <div class="calc-actions">
+                            <button class="btn-primary-large" id="useCutoffInChatBtn"><span>Find Eligible Colleges</span><i data-lucide="arrow-right"></i></button>
+                            <button class="btn-subtle" onclick="switchView('chat')">Back to Chat</button>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="page-view" id="trendView">
+                    <div class="calc-page-container">
+                        <div class="calc-page-header">
+                            <div class="calc-badge trend-badge">Historical Data</div>
+                            <h2>College Comparison</h2>
+                            <p>Compare cutoff trends strictly using 4-digit College Codes.</p>
+                        </div>
+                        <div class="glass-panel input-grid-card">
+                            <div class="input-row">
+                                <input type="number" id="trendCode1" class="trend-input" placeholder="4-Digit College Code 1 (e.g., 1315)">
+                                <input type="number" id="trendCode2" class="trend-input" placeholder="4-Digit College Code 2 (Optional)">
+                            </div>
+                            <div class="input-row">
+                                <input type="text" id="trendBranch" class="trend-input uppercase-input" placeholder="Branch Code (e.g., CS, EC, ME)">
+                                <select id="trendCategory" class="trend-input">
+                                    <option value="OC">OC (Open Competition)</option>
+                                    <option value="BC">BC</option>
+                                    <option value="BCM">BCM</option>
+                                    <option value="MBC">MBC & DNC</option>
+                                    <option value="SC">SC</option>
+                                    <option value="SCA">SCA</option>
+                                    <option value="ST">ST</option>
+                                </select>
+                            </div>
+                            <button class="btn-primary-large full-width" id="runTrendBtn"><span>Analyze Trends</span><i data-lucide="trending-up"></i></button>
+                        </div>
+                        <div id="trendResults" style="display:none;" class="table-wrapper">
+                            <table class="trend-table">
+                                <thead><tr id="trendTableHeader"></tr></thead>
+                                <tbody id="trendTableBody"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
             </div>
         </div>
-    </section>
+    </div>
 
-    <section id="about" class="section">
-        <div class="container">
-            <h2>About Me</h2>
-            <p>I am a web developer with a knack for creating clean and responsive web designs. With expertise in HTML, CSS, and JavaScript, I build modern and user-friendly websites.</p>
+    <div class="gemini-popover glass-panel" id="settingsPopover">
+        <div class="popover-section">
+            <button class="popover-item" onclick="document.getElementById('newChatBtn').click();"><i data-lucide="trash-2"></i> Clear Chat History</button>
+            <button class="popover-item" id="themeMenuTrigger"><i data-lucide="sun"></i> Theme <i data-lucide="chevron-right" class="arrow-right"></i></button>
         </div>
-    </section>
-
-    <section id="contact" class="section">
-        <div class="container">
-            <h2>Contact Me</h2>
-            <form class="contact-form">
-                <input type="text" placeholder="Your Name" required>
-                <input type="email" placeholder="Your Email" required>
-                <textarea placeholder="Your Message" required></textarea>
-                <button type="submit">Send Message</button>
-            </form>
+        <div class="theme-flyout glass-panel" id="themeFlyout">
+            <button class="popover-item theme-select" data-theme="system"><i style="width:18px; display:inline-block"></i> System</button>
+            <button class="popover-item theme-select" data-theme="light"><i style="width:18px; display:inline-block"></i> Light</button>
+            <button class="popover-item theme-select" data-theme="dark"><i style="width:18px; display:inline-block"></i> Dark</button>
         </div>
-    </section>
-
-    <footer>
-        <div class="container">
-            <p>&copy; 2024 MyPortfolio. All rights reserved.</p>
-        </div>
-    </footer>
-
+    </div>
     <script src="script.js"></script>
 </body>
 </html>
